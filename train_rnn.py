@@ -37,8 +37,8 @@ model = RNN.RNNModel(ntokens, args.emsize, args.nhid, args.nlayers, args.dropout
 
 model = model.to(device)
 
-from new_5 import new_5
-#optimizer = new_5(model.parameters())
+from AdaGC import AdaGC
+#optimizer = AdaGC(model.parameters())
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # Load data
@@ -83,10 +83,8 @@ def repackage_hidden(h):
 def get_batch(source, i):
     # source: size(total_len//bsz, bsz)
     seq_len = min(args.bptt, len(source) - 1 - i)
-    #data = torch.tensor(source[i:i+seq_len]) # size(bptt, bsz)
     data = source[i:i+seq_len].clone().detach()
     target = source[i+1:i+1+seq_len].clone().detach().view(-1)
-    #target = torch.tensor(source[i+1:i+1+seq_len].view(-1)) # size(bptt * bsz)
     return data, target
 
 
@@ -103,9 +101,7 @@ def evaluate(data_source):
             data = data.to(device)
             targets = targets.to(device)
             output, hidden = model(data, hidden)
-            # model input and output
-            # inputdata size(bptt, bsz), and size(bptt, bsz, embsize) after embedding
-            # output size(bptt*bsz, ntoken)
+           
             total_loss += len(data) * criterion(output, targets).data
             hidden = repackage_hidden(hidden)
         test_time_2 = time.time()
@@ -144,12 +140,6 @@ def train():
         if batch % interval == 0 and batch > 0:
             cur_loss = total_loss / interval
             elapsed = time.time() - start_time
-            '''
-            print('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
-                    'loss {:5.2f} | ppl {:8.2f}'.format(
-                epoch, batch, len(train_data) // args.bptt, lr,
-                elapsed * 1000 / interval, cur_loss, math.exp(cur_loss)))
-            '''
             total_loss = 0
             start_time = time.time()
     train_time_2 = time.time()
