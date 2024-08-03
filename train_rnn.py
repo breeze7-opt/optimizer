@@ -7,7 +7,6 @@ import corpus
 import RNN
 from AdaBound import AdaBound
 from yogi import Yogi
-from AdaBound import AdaBound
 from adamod import AdaMod
 from Adan import Adan
 import time
@@ -43,9 +42,6 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # Load data
 
-
-
-
 def batchify(data, bsz):
     # Work out how cleanly we can divide the dataset into bsz parts.
     nbatch = data.size(0) // bsz
@@ -62,7 +58,6 @@ val_data = batchify(corpus.valid, eval_batch_size)
 test_data = batchify(corpus.test, eval_batch_size)
 
 #以上均为预处理
-
 
 # Load checkpoint
 if args.checkpoint != '':
@@ -111,7 +106,6 @@ def evaluate(data_source):
 
 
 def train():
-    # choose a optimizer
 
     model.train()
     train_time_1 = time.time()
