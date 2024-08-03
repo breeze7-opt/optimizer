@@ -37,8 +37,8 @@ model = RNN.RNNModel(ntokens, args.emsize, args.nhid, args.nlayers, args.dropout
 model = model.to(device)
 
 from AdaGC import AdaGC
-#optimizer = AdaGC(model.parameters())
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+optimizer = AdaGC(model.parameters())
+#optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # Load data
 
