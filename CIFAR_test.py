@@ -15,7 +15,7 @@ from adamod import AdaMod
 from Adan import Adan
 
 batch_size = 64
-'''设置数据集'''
+'''datasets'''
 train_data = torchvision.datasets.CIFAR100(root="F/CIFAR100", train=True,
                                           transform=torchvision.transforms.ToTensor(),
                                           download=True)
@@ -29,19 +29,15 @@ test_data_size = len(test_data)
 train_loader = torch.utils.data.DataLoader(dataset=train_data,batch_size=batch_size,shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_data,batch_size=batch_size,shuffle=False)
 
-'''建立网络'''
-
-
-#定义网络
+'''load model'''
 model =ResNet34().cuda()
 
-'''挑选优化器'''
+'''optimizer'''
 from AdaGC import AdaGC
 optimizer =AdaGC(model.parameters())
-#optimizer = optim.RMSprop(model.parameters(),lr=0.001)
 print(optimizer)
 
-'''损失函数'''
+'''loss'''
 criterion = nn.CrossEntropyLoss()
 if torch.cuda.is_available():
     criterion = criterion.cuda()
@@ -52,7 +48,7 @@ train_accs = []
 test_loss = []
 test_accs =[]
 
-'''开始训练'''
+'''train'''
 def train(epoch):
     print('           第 {} 轮'.format(epoch))
     model.train()
@@ -76,9 +72,7 @@ def train(epoch):
 
     print("训练集上的Loss：{}".format(total_train_loss))
     print("训练集上的准确率：{}%".format(int(total_train_acc.item()) * 100 / train_data_size))
-        #if batch_idx % 50 == 0:
-         #   print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(epoch, batch_idx * len(data), len(train_loader.dataset),
-         #              100. * batch_idx / len(train_loader), loss.item()))
+
 def test():
     model.eval()
     total_test_loss = 0
@@ -100,9 +94,7 @@ def test():
 
     print("整体测试集上的Loss：{}".format(total_test_loss))
     print("整体测试集上的准确率：{}%".format(int(total_test_acc.item()) * 100 / test_data_size))
-    #print('           第 {} 轮'.format(epoch))
-    #print('Test set: Average loss: {:.4f}'.format(test_loss))
-    #print('Accuracy: {}/{} ({:.2f}%)'.format(correct, test_data_size,100. * correct / test_data_size))
+
 for epoch in range(1, 101):
     train(epoch)
     test()
@@ -112,5 +104,4 @@ print('total train loss',train_loss)
 print('total test loss',test_loss)
 print('total train acc',train_accs)
 print('total test acc',test_accs)
-#print('所用时间为：',end-start,'s')
 print('最大精度： {:.2f}%'.format(max(test_accs)))
