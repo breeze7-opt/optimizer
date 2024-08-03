@@ -9,14 +9,10 @@ import torchvision
 import time
 from ResNet import *
 from VGG16 import *
-from adabelief import AdaBelief
 from yogi import Yogi
 from AdaBound import AdaBound
 from adamod import AdaMod
 from Adan import Adan
-from AdaMG import AdaMG
-#from aggmo import AggMo
-#from lamb import *
 
 batch_size = 64
 '''设置数据集'''
@@ -40,8 +36,8 @@ test_loader = torch.utils.data.DataLoader(dataset=test_data,batch_size=batch_siz
 model =ResNet34().cuda()
 
 '''挑选优化器'''
-from new_5 import new_5
-optimizer =AdaMG(model.parameters())
+from AdaGC import AdaGC
+optimizer =AdaGC(model.parameters())
 #optimizer = optim.RMSprop(model.parameters(),lr=0.001)
 print(optimizer)
 
