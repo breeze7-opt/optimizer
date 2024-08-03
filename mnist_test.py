@@ -6,11 +6,11 @@ import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import time
-from adabelief import AdaBelief
 from AdaBound import AdaBound
 from yogi import Yogi
 from adamod import AdaMod
 from Adan import Adan
+from AdaGC import AdaGC
 n_epochs = 30
 batch_size_train = 64
 batch_size_test = 1000
@@ -61,10 +61,8 @@ class Net(nn.Module):
 
 
 network = Net()
-#from AdaBound import AdaBound
-#optimizer = AdaMod(network.parameters())
-from new_5 import new_5
-optimizer = new_5(network.parameters())
+
+optimizer = AdaGC(network.parameters())
 #optimizer = optim.Adam(network.parameters(),lr = 0.001)
 print(optimizer)
 train_losses = []
