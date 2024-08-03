@@ -133,8 +133,8 @@ test_dataset = ImagesDataset(files=files_test,
 def training(model, model_name, num_epochs, train_dataloader, val_dataloader):
     loss_function = torch.nn.CrossEntropyLoss()
     #optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    #optimizer = AdaBound(model.parameters())
+    #optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = AdaGC(model.parameters())
     print(optimizer)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.33)
 
