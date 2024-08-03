@@ -13,7 +13,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, models
-from new_5 import new_5
+from AdaGC import AdaGC
 from AdaBound import AdaBound
 from yogi import Yogi
 from adamod import AdaMod
