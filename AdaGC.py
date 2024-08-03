@@ -78,12 +78,9 @@ class AdaGC(Optimizer):
                 nt = exp_avg.mul(beta2).add(exp_avg_s,alpha = 1-beta2)
 
                 exp_avg_var.mul_(beta2).add_(bia.mul(bia),alpha=1-beta2)
-                #bias_correction1 = 1 - beta1 ** step
-                #bias_correction2 = 1 - beta2 ** step
                 denom = exp_avg_var.sqrt().add(group['eps'])
 
                 step_size = lr
-                #step_size = lr* math.sqrt(bias_correction2) / bias_correction1
                 step_size = torch.full_like(denom, step_size)
                 step_size.div_(denom)
 
