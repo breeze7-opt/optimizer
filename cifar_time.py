@@ -13,7 +13,7 @@ from yogi import Yogi
 from AdaBound import AdaBound
 from adamod import AdaMod
 from Adan import Adan
-
+from AdaGC import AdaGC
 
 batch_size = 64
 '''datasets'''
@@ -34,9 +34,8 @@ test_loader = torch.utils.data.DataLoader(dataset=test_data,batch_size=batch_siz
 model =ResNet34().cuda()
 
 '''optimizer'''
-from AdaGC import AdaGC
-#optimizer =AdaBound(model.parameters(), lr= 0.001)
-optimizer = optim.SGD(model.parameters(), lr = 0.001, momentum=0.9)
+optimizer =AdaGC(model.parameters(), lr= 0.001)
+#optimizer = optim.SGD(model.parameters(), lr = 0.001, momentum=0.9)
 print(optimizer)
 
 '''loss'''
